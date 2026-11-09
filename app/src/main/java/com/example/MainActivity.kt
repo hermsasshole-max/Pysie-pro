@@ -229,20 +229,27 @@ fun SkinMagnifierApp(cameraExecutor: ExecutorService) {
         AndroidView(
             factory = { ctx ->
                 previewView.apply {
-                    setOnTouchListener { _, event ->
+                    setOnTouchListener { v, event ->
                         if (event.action == MotionEvent.ACTION_DOWN) {
                             val x = event.x
                             val y = event.y
                             focusPoint = Pair(x, y)
                             showFocusRing = true
+                            v.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
 
                             val factory = previewView.meteringPointFactory
                             val point = factory.createPoint(x, y)
-                            val action = FocusMeteringAction.Builder(point).build()
+                            val action = FocusMeteringAction.Builder(
+                                point,
+                                FocusMeteringAction.FLAG_AF or FocusMeteringAction.FLAG_AE
+                            )
+                            .setAutoCancelDuration(3, java.util.concurrent.TimeUnit.SECONDS)
+                            .build()
+
                             cameraControl?.startFocusAndMetering(action)
 
                             scope.launch {
-                                delay(1000)
+                                delay(1200)
                                 showFocusRing = false
                             }
                         }
