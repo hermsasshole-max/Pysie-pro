@@ -1,0 +1,6 @@
+{
+  "name": "Skin Magnifier Pro",
+  "description": "Precision magnifying app with high-contrast filters, digital zoom, and skin clarity glare reduction for blackhead and pimple removal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
